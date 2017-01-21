@@ -13,7 +13,6 @@ router.post('/role', auth, function (req, res, next) {
 		if (err) console.log("napaka pri query stats/role: ", err);
 		else {
 			var tip = polja.Roles;
-			console.log("tip: ", tip);
 			var meja = 0;
 			var skil = "";
 			switch (tip) {
@@ -62,7 +61,6 @@ router.post('/role', auth, function (req, res, next) {
 			};
 
 			var sql = "SELECT CITIZEN_NAME, STR, DEX, CON, INTL, CHR FROM citizen WHERE STATUS!='D' AND " + skil + ">=" + meja;
-			console.log("SQL: ", sql);
 			db.query(sql, function (err, rows) {
 				if (err) console.log("napaka pri poizvedbi role: ", err);
 				else res.render('stats', { items: rows, user: req.session.user, info: izpis });
