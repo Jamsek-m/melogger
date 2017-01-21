@@ -1,4 +1,4 @@
-INSERT INTO sif_res(NAZIV, MON_VAL) VALUES ('﻿Piece of wood', '1.1');
+INSERT INTO sif_res(NAZIV, MON_VAL) VALUES ('Piece of wood', '1.1');
 INSERT INTO sif_res(NAZIV, MON_VAL) VALUES ('Iron piece', '2.5');
 INSERT INTO sif_res(NAZIV, MON_VAL) VALUES ('Stone piece', '1');
 INSERT INTO sif_res(NAZIV, MON_VAL) VALUES ('Mulberry leaf', '0.5');
