@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>Dead characters</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	</head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		a:hover{
+    		text-decoration: none;
+		}
+	</style>
+	<body>
+		<% include nav.ejs %>
+			<div style="padding:25px">
+
+				<h2>Dead characters</h2>
+
+				<table style="margin-bottom: 25px">
+					<tr>
+						<th>Click to revive a character</th>
+					</tr>
+					<% for(var i = 0; i < citizens.length; i++) { %>
+						<tr><td><a href="/list/revive/<%= citizens[i].CITIZEN_ID %>" onclick="return confirm('Are you sure you want to revive <%= citizens[i].CITIZEN_NAME %>?')"><%= citizens[i].CITIZEN_NAME %></a></td></tr>
+					<% } %>
+				</table>
+
+				<a href="/list"><span class="glyphicon glyphicon-chevron-left" style="padding-top:15px;"></span> Go back</a>
+
+			</div>
+	</body>
+</html>

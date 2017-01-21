@@ -5,7 +5,7 @@ var auth = require('../moduli/auth');
 var formidable = require('formidable');
 
 router.get('/', auth, function (req, res, next) {
-	var sql = "SELECT CITIZEN_ID, CITIZEN_NAME,BALANCE,STR,DEX,INTL,CON,CHR,SUM(KOLICINA * MON_VAL) as SUM_MON_VAL FROM donacija d JOIN sif_res sr on d.RESURS=sr.RES_ID JOIN citizen c ON d.CITIZEN=c.CITIZEN_ID GROUP BY CITIZEN";
+	var sql = "SELECT CITIZEN_ID, CITIZEN_NAME,STR,DEX,INTL,CON,CHR, round(SUM(d.KOLICINA * sr.MON_VAL)) as BALANCE from citizen c join donacija d on c.CITIZEN_ID=d.CITIZEN join sif_res sr on sr.RES_ID=d.RESURS where c.STATUS!='D' group by CITIZEN_ID, CITIZEN_NAME,STR,DEX,INTL,CON,CHR";
 	db.query(sql, function (err, rows) {
 		if (err) console.log("napaka pri GET /list: ", err);
 		else res.render('list', { items: rows, user: req.session.user });
@@ -31,10 +31,11 @@ router.post('/edit/:id', auth, function (req, res, next) {
 			var con = polja.Con;
 			var char = polja.Char;
 			var intl = polja.Intl;
+			var status = polja.Status;
 
-			var sql = "UPDATE citizen SET CITIZEN_NAME=?, STR=?, DEX=?, CON=?, INTL=?, CHR=? WHERE CITIZEN_ID=" + req.params.id;
+			var sql = "UPDATE citizen SET CITIZEN_NAME=?, STR=?, DEX=?, CON=?, INTL=?, CHR=?, STATUS=? WHERE CITIZEN_ID=" + req.params.id;
 
-			db.query(sql, [name, str, dex, con, intl, char], function (err, rows) {
+			db.query(sql, [name, str, dex, con, intl, char, status], function (err, rows) {
 				if (err) console.log("napaka pri updateu edit citizen: ", err);
 				else res.redirect('/list');
 			});
@@ -54,9 +55,9 @@ router.post('/add', auth, function (req, res, next) {
 			var char = polja.Char;
 			var intl = polja.Intl;
 
-			var sql = "INSERT INTO citizen(CITIZEN_NAME, STR, DEX, INTL, CON, CHR) VALUES(?,?,?,?,?,?);" +
+			var sql = "INSERT INTO citizen(CITIZEN_NAME, STR, DEX, INTL, CON, CHR, STATUS) VALUES(?,?,?,?,?,?, 'A');" +
 				"SET @last_id := LAST_INSERT_ID();" +
-				"INSERT INTO donacija (VNESEL_USER, DATUM_VNOSA, KOLICINA, RESURS, CITIZEN, TIP) VALUES (?, ?, '0', '256', @last_id, 'P');";
+				"INSERT INTO donacija (VNESEL_USER, DATUM_VNOSA, KOLICINA, RESURS, CITIZEN) VALUES (?, ?, '0', '256', @last_id);";
 
 			db.query(sql, [name, str, dex, intl, con, char, req.session.user.id, new Date()], function (err, rows) {
 				if (err) console.log("napaka pri vnosu citizena: ", err);
@@ -67,11 +68,26 @@ router.post('/add', auth, function (req, res, next) {
 });
 
 router.get('/delete/:id', auth, function (req, res, next) {
-	var sql = "DELETE FROM citizen WHERE CITIZEN_ID=" + req.params.id;
+	var sql = "UPDATE citizen SET STATUS='D' WHERE CITIZEN_ID=" + req.params.id;
 	db.query(sql, function (err, rows) {
 		if (err) console.log("napaka pri delete citizen: ", err);
 		else res.redirect('/list');
 	})
+});
+
+router.get('/deadchars', auth, function(req, res, next){
+	var sql = "SELECT * FROM citizen WHERE STATUS='D'";
+	db.query(sql, function(err, rows){
+		res.render('dead_chars', {citizens: rows, user: req.session.user});
+	});
+});
+
+router.get('/revive/:id', auth, function(req, res, next){
+	var sql = "UPDATE citizen SET STATUS='A' WHERE CITIZEN_ID=" + req.params.id;
+	db.query(sql, function(err, rows){
+		if(err) console.log("error pri revivanju ", err);
+		else res.redirect('/list');
+	});
 });
 
 

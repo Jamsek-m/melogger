@@ -12,6 +12,7 @@ var stats_routes = require('./routes/stats');
 var list_routes = require('./routes/list');
 var donation_routes = require('./routes/donations');
 var admin_routes = require('./routes/admin');
+var statistics_routes = require('./routes/statistic');
 
 var app = express();
 
@@ -28,7 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
 	secret : "PERICAREZERACIREP",
-	name : "jdemolay admin stran",
+	name : "Me logger site",
 	saveUninitialized : true,
 	resave : false,
 	cookie : {
@@ -42,6 +43,7 @@ app.use('/stats', stats_routes);
 app.use('/list', list_routes);
 app.use('/donations', donation_routes);
 app.use('/admin', admin_routes);
+app.use('/statistic', statistics_routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

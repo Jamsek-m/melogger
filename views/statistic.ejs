@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>Statistics</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	</head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$("#mIW").click(function () {
+				var myElement = $("#moreInfoWar");
+				$(myElement).slideToggle("slow");
+				$(".toggle:visible").not(myElement).hide();
+			});
+			$("#mIC").click(function () {
+				var myElement = $("#moreInfoCraf");
+				$(myElement).slideToggle("slow");
+				$(".toggle:visible").not(myElement).hide();
+			});
+			$("#moreInfoWar").click(function(){
+				$("#moreInfoWar").slideToggle("slow");
+				$(".toggle:visible").not("#moreInfoWar").hide();
+			});
+			$("#moreInfoCraf").click(function(){
+				$("#moreInfoCraf").slideToggle("slow");
+				$(".toggle:visible").not("#moreInfoCraf").hide();
+			});
+		});
+	</script>
+
+	<style>
+		th,td {
+			padding-top: 10px;
+		}
+		.toggle {
+			display : none
+		}
+	</style>
+
+
+	<body>
+		<% include nav.ejs %>
+		<div style="padding:25px">
+			<h2 style="padding-bottom:10px">Citizen statistics</h2>
+			All citizens: <%= cit.NUM_CITIZENS %> <br />
+			<table>	
+				<tr>
+					<th colspan="2"> <h3>Average stats</h3> </th>
+				</tr>
+				<tr>
+					<td> Strength: </td>
+					<td> <%= avgs.AVG_STR %> </td>
+				</tr>
+				<tr>
+					<td> Dexterity: </td>
+					<td> <%= avgs.AVG_DEX %> </td>
+				</tr>
+				<tr>
+					<td> Intelligence: </td>
+					<td> <%= avgs.AVG_INTL %> </td>
+				</tr>
+				<tr>
+					<td> Constitution: </td>
+					<td> <%= avgs.AVG_CON %> </td>
+				</tr>
+				<tr>
+					<td> Charisma: </td>
+					<td> <%= avgs.AVG_CHR %> </td>
+				</tr>
+			</table>
+
+			<h3 style="padding-top:20px">Statistics of professions</h3>
+
+			<a id="mIW" href="#moreInfoWar" style="color:black"><span class="glyphicon glyphicon-info-sign"></span></a> Number of warriors: <%= war.WARRIORS %> <br/>
+			<div id="moreInfoWar" class="toggle alert alert-info" style="width:40em">
+				<strong>Info!</strong> Warrior is considered someone with at least 15 Strength and 15 Dexterity.
+			</div>
+
+			<a id="mIC" href="#moreInfoCraf" style="color:black"><span class="glyphicon glyphicon-info-sign"></span></a> Number of crafters: <%= craf.CRAFTERS %> <br/>
+			<div id="moreInfoCraf" class="toggle alert alert-info" style="width:40em">
+				<strong>Info!</strong> Crafter is considered someone with at least 15 Intelligence.
+			</div>
+		</div>
+	</body>
+</html>

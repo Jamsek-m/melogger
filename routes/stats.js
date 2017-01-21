@@ -41,6 +41,18 @@ router.post('/role', auth, function (req, res, next) {
 					meja = 12;
 					skil = "CHR";
 					break;
+				case "R2":
+					meja = 14;
+					skil = "CHR";
+					break;
+				case "R3":
+					meja = 12;
+					skil = "CHR";
+					break;
+				case "R4":
+					meja = 10;
+					skil = "CHR";
+					break;
 			}
 
 			var izpis = {
@@ -49,7 +61,7 @@ router.post('/role', auth, function (req, res, next) {
 				meja: meja
 			};
 
-			var sql = "SELECT CITIZEN_NAME, STR, DEX, CON, INTL, CHR FROM citizen WHERE " + skil + ">=" + meja;
+			var sql = "SELECT CITIZEN_NAME, STR, DEX, CON, INTL, CHR FROM citizen WHERE STATUS!='D' AND " + skil + ">=" + meja;
 			console.log("SQL: ", sql);
 			db.query(sql, function (err, rows) {
 				if (err) console.log("napaka pri poizvedbi role: ", err);

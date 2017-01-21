@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<%	function vrniTip(tip){
-		if(tip == 'P'){
+<%	function vrniTip(kolicina){
+		if(kolicina > 0){
 			return 'donated';
-		} else if(tip == 'M'){
+		} else if(kolicina < 0){
 			return 'took';
 		} else {
 			return 'nedefinirano';
@@ -17,7 +17,11 @@
 	</head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+	<style>
+		a:hover{
+    		text-decoration: none;
+		}
+	</style>
 	<body>
 		<% include nav.ejs %>
 			<div style="padding:25px">
@@ -30,12 +34,12 @@
 						<% for(var i = 0; i < items.length; i++) { %>
 							<hr />
 							<div style="float:none">
-								<span><%= items[i].DATUM_VNOSA %> - <%= vrniTip(items[i].TIP) %> <strong><%= items[i].KOLICINA %> <%= items[i].NAZIV %></strong></span>
+								<span><%= items[i].DATUM_IN %> - <%= vrniTip(items[i].KOLICINA) %> <strong><%= Math.abs(items[i].KOLICINA) %> <%= items[i].NAZIV %></strong> <i>(<%= Math.abs(items[i].VREDNOST) %> silver)</i></span>
 								<span style="float:right">Added by: <%= items[i].USERNAME %></span>
 							</div>
 
 							<% }} %>
-								<a href="/list"><span class="glyphicon glyphicon-chevron-left" style="padding-top:15px">Back</span></a>
+								<a href="/list"><span class="glyphicon glyphicon-chevron-left" style="padding-top:15px;"></span> Go back</a>
 			</div>
 	</body>
 

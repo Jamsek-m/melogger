@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 
-<%	function vrniTip(tip){
-		if(tip == 'P'){
+<%	function vrniTip(kolicina){
+		if(kolicina > 0){
 			return 'donated';
-		} else if(tip == 'M'){
+		} else if(kolicina < 0){
 			return 'took';
 		} else {
 			return 'nedefinirano';
@@ -27,7 +27,7 @@
 				<% for(var i = 0; i < items.length; i++) { %>
 					<hr />
 					<div style="float:none">
-						<span><%= items[i].DATUM_VNOSA %> - <strong><%= items[i].CITIZEN_NAME %></strong> <%= vrniTip(items[i].TIP) %> <strong><%= items[i].KOLICINA %> <%= items[i].NAZIV %></strong></span>
+						<span><%= items[i].DATUM_IN %> - <strong><%= items[i].CITIZEN_NAME %></strong> <%= vrniTip(items[i].KOLICINA) %> <strong><%= Math.abs(items[i].KOLICINA) %> <%= items[i].NAZIV %></strong></span>
 						<span style="float:right">Added by: <%= items[i].USERNAME %></span>
 					</div>
 
