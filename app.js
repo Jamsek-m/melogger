@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+//var cron = require('cron');
 
 var routes = require('./routes/index.js');
 var login_routes = require('./routes/login.js');
@@ -21,7 +22,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -58,10 +59,16 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
 	app.use(function(err, req, res, next) {
+		if(!req.session.user){
+			res.redirect('/login');
+			return;
+		}
 		res.status(err.status || 500);
 		res.render('error', {
 			message: err.message,
-			error: err
+			error: err,
+			prod: false,
+			user : req.session.user
 		});
 	});
 }
@@ -69,12 +76,28 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+	if(!req.session.user){
+		res.redirect('/login');
+		return;
+	}
 	res.status(err.status || 500);
 	res.render('error', {
-		message: err.message,
-		error: {}
+		message: err.status + " " + err.message,
+		error: {},
+		prod : true,
+		user : req.session.user
 	});
 });
+
+//periodično opravlja nalogo
+/*var cronJob = cron.job("/5 ", function(){
+	sessionStore.all(function(err, sessions) {
+        for (var i = 0; i < sessions.length; i++) {
+            sessionStore.get(sessions[i], function() {} );
+        }
+    });
+});
+cronJob.start();*/
 
 
 module.exports = app;

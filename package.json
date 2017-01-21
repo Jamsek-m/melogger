@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/MElogger"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -16,6 +16,7 @@
     "mysql" : "latest",
     "crypto" : "latest",
     "formidable" : "latest",
-    "express-session" : "latest"
+    "express-session" : "latest",
+    "cron" : "latest"
   }
 }
