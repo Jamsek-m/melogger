@@ -1,0 +1,8 @@
+{
+	"connLimit" : 50,
+	"multStmt" : true,
+	"host" : "localhost",
+	"user" : "uporabnik",
+	"pass" : "uporabnik",
+	"database" : "me_logger" 
+}

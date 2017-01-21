@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Log in</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+	.centered {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+</style>
+
+<body style="padding:50px">
+	<h2>Jdemolay Serbian Administration Panel</h2>
+	<form action="/login" method="POST" enctype="multipart/form-data" style="width:350px; padding-top:20px">
+		<div class="form-group">
+			<label for="Upime">Username:</label>
+			<input class="form-control" type="text" required id="Upime" name="Upime" />
+		</div>
+		<div class="form-group">
+			<label for="Geslo">Password:</label>
+			<input type="password" id="Geslo" class="form-control" required name="Geslo" />
+		</div>
+		<% if(msg) { %>
+			<div class="alert alert-danger">
+				<%= msg %>
+			</div>
+
+			<% } %>
+				<button type="submit" class="btn btn-default centered" style="width: 9em">Submit</button>
+	</form>
+
+
+
+</body>
+
+</html>

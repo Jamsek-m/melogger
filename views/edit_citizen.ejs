@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Edit
+		<%= citizen.CITIZEN_NAME %>
+	</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function(){
+	$("#back_btn").click(function(){
+		window.location.href = '/list';
+	});
+});
+</script>
+
+<body>
+	<% include nav.ejs %>
+		<div style="padding:25px">
+			<h3 style="padding-bottom:10px">Edit
+				<%= citizen.CITIZEN_NAME %>
+			</h3>
+			<form method="POST" action="/list/edit/<%= citizen.CITIZEN_ID %>" enctype="multipart/form-data" style="width:350px">
+				<div class="form-group">
+					<label for="CitizenName">Citizen name:</label>
+					<input type="text" id="CitizenName" name="CitizenName" class="form-control" value="<%= citizen.CITIZEN_NAME %>" required/>
+				</div>
+				<div class="form-group">
+					<label for="Str">Strength:</label>
+					<input type="number" id="Str" name="Str" value="<%= citizen.STR %>" class="form-control" required/>
+				</div>
+				<div class="form-group">
+					<label for="Str">Dexterity:</label>
+					<input type="number" id="Dex" name="Dex" value="<%= citizen.DEX %>" class="form-control" required/>
+				</div>
+				<div class="form-group">
+					<label for="Str">Constitution:</label>
+					<input type="number" id="Con" name="Con" value="<%= citizen.CON %>" class="form-control" required/>
+				</div>
+				<div class="form-group">
+					<label for="Str">Charisma:</label>
+					<input type="number" id="Char" name="Char" value="<%= citizen.CHR %>" class="form-control" required/>
+				</div>
+				<div class="form-group">
+					<label for="Str">Intelligence:</label>
+					<input type="number" id="Intl" name="Intl" value="<%= citizen.INTL %>" class="form-control" required/>
+				</div>
+				<button type="submit" class="btn btn-default">Submit</button> <button type="button" id="back_btn" class="btn btn-info">Cancel</button>
+				<a href="/list/delete/<%= citizen.CITIZEN_ID %>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete <%= citizen.CITIZEN_NAME %>?')">Delete citizen</a>
+			</form>
+		</div>
+</body>
+
+</html>

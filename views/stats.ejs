@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<%
+	function vrniTip(tip){
+		switch (tip) {
+			case "V":
+				return "Vassal";
+			case "GC":
+				return "Guard Captain";
+			case "DM":
+				return "Drill Master";
+			case "AD":
+				return "Academy Director";
+			case "TG":
+				return "Tower Guardian";
+			case "J":
+				return "Judge";
+		}
+	}
+
+	function vrniSkil(skil){
+		switch(skil){
+			case "STR" :
+				return "Strength";
+			case "DEX" : 
+				return "Dexterity";
+			case "CON" : 
+				return "Constitution";
+			case "INTL" : 
+				return "Intelligence";
+			case "CHR" :
+				return "Charisma";
+		}
+	}
+	%>
+
+	<head>
+		<title>Role candidates</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	</head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/javascripts/sorttable.js"></script>
+
+	<style>
+		table.sortable thead {
+			background-color: #cdcdcd;
+			color: #4d4a4f;
+			font-weight: bold;
+			cursor: default;
+		}
+		
+		.tablCol {
+			width: 10em;
+			padding-top: 1em;
+			padding-bottom: 1em;
+		}
+		
+		th {
+			text-align: center;
+		}
+		
+		td {
+			text-align: center;
+			border-bottom: 1px solid #ddd;
+			padding: 5px;
+		}
+		
+		td.left {
+			text-align: left;
+			padding-left: 5px;
+		}
+		
+		th.left {
+			text-align: left;
+			padding-left: 5px;
+		}
+		
+		tr:hover {
+			background-color: #eee;
+		}
+	</style>
+
+	<body>
+		<% include nav.ejs %>
+			<div style="padding:25px">
+				<h3 style="padding-bottom:10px">Role candidates</h3>
+				<form action="/stats/role" method="POST" enctype="multipart/form-data" style="width:300px; padding-bottom:20px">
+					<div class="form-group">
+						<label for="Roles">Select role:</label>
+						<select id="Roles" name="Roles" class="form-control">
+					<option value="V">Vassal</option>
+					<option value="GC">Guard Captain</option>
+					<option value="DM">Drill Master</option>
+					<option value="AD">Academy Director</option>
+					<option value="TG">Tower Guardian</option>
+					<option value="J">Judge</option>
+				</select>
+					</div>
+					<button type="submit" class="btn btn-default">Submit</button>
+				</form>
+
+				<% if(items.length > 0) { %>
+					<p style="color : #ff4d4d"><strong><%= vrniTip(info.tip) %> : <%= info.meja %> <%= vrniSkil(info.skil) %></strong></p>
+					<table class="sortable">
+						<tr>
+							<th class="tablCol left">Citizen name</th>
+							<th class="tablCol">Strength</th>
+							<th class="tablCol">Dexterity</th>
+							<th class="tablCol">Intelligence</th>
+							<th class="tablCol">Constitution</th>
+							<th class="tablCol">Charisma</th>
+						</tr>
+
+						<% for(var i = 0; i < items.length; i++){ %>
+							<tr>
+								<td class="left">
+									<%= items[i].CITIZEN_NAME %>
+								</td>
+								<td>
+									<%= items[i].STR %>
+								</td>
+								<td>
+									<%= items[i].DEX %>
+								</td>
+								<td>
+									<%= items[i].INTL %>
+								</td>
+								<td>
+									<%= items[i].CON %>
+								</td>
+								<td>
+									<%= items[i].CHR %>
+								</td>
+							</tr>
+							<% } %>
+
+					</table>
+					<% } %>
+			</div>
+	</body>
+
+</html>

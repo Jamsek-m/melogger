@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<%
+	function vrniTip(tip){
+		if(tip=='A'){
+			return "Admin";
+		} else if(tip=='U'){
+			return "User";
+		} else {
+			return "Nedefiniran";
+		}
+	}
+%>
+
+
+	<head>
+		<title>Admin panel</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	</head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="javascripts/sorttable.js"></script>
+
+
+	<style>
+		table.sortable thead {
+			background-color: #cdcdcd;
+			color: #4d4a4f;
+			font-weight: bold;
+			cursor: default;
+		}
+		
+		.tablCol {
+			width: 10em;
+			padding-top: 1em;
+			padding-bottom: 1em;
+		}
+		
+		th {
+			text-align: center;
+		}
+		
+		td {
+			text-align: center;
+			border-bottom: 1px solid #ddd;
+			padding: 5px;
+		}
+		
+		td.left {
+			text-align: left;
+			padding-left: 5px;
+		}
+		
+		th.left {
+			text-align: left;
+			padding-left: 5px;
+		}
+		
+		tr:hover {
+			background-color: #eee;
+		}
+		
+		.toggle {
+			display: none;
+		}
+	</style>
+
+	<script>
+	$(document).ready(function(){
+		var show = false;
+		$("#showInsert").click(function(){
+			$("#insert").toggle("slow");
+			$(".toggle:visible").not("#insert").hide();
+			if(show){
+				show = false;
+				$("#showInsert").removeClass('btn-danger');
+				$("#showInsert").addClass('btn-default');
+				$("#showInsert").html("Add new user");
+			} else {
+				show = true;
+				$("#showInsert").removeClass('btn-default');
+				$("#showInsert").addClass('btn-danger');
+				$("#showInsert").html("Cancel");
+			}
+		});
+	});
+</script>
+
+
+	<body>
+		<% include nav.ejs %>
+			<div style="padding:25px">
+
+				<h3 style="padding-bottom:10px">Users</h3>
+
+				<button id="showInsert" class="btn btn-default">Add new user</button>
+
+				<div id="insert" class="toggle">
+					<form action="/admin/new" method="POST" enctype="multipart/form-data" style="padding-bottom:15px; width:350px">
+						<div class="form-group">
+							<label for="Upime">Username</label>
+							<input type="text" class="form-control" id="Upime" name="Upime" required/> <br />
+						</div>
+						<div class="form-group">
+							<label for="Geslo">Password</label>
+							<input type="text" id="Geslo" class="form-control" name="Geslo" required/> <br />
+						</div>
+						<div class="form-group">
+							<label for="Tip">User type</label>
+							<select id="Tip" name="Tip" class="form-control" required>
+								<option value="A">Admin</option>
+								<option value="U" selected="selected">User</option>
+							</select>
+						</div>
+
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</div>
+
+				<div id="data">
+					<table class="sortable">
+						<tr>
+							<th></th>
+							<th class="tablCol left">Username</th>
+							<th class="tablCol">Type</th>
+						</tr>
+						<% for(var i = 0; i < items.length; i++){ %>
+							<tr>
+								<td>
+									<a href="/admin/edit/<%= items[i].USER_ID %>"><span class="glyphicon glyphicon-pencil"></span></a>
+									<a href="/admin/delete/<%= items[i].USER_ID %>"><span class="glyphicon glyphicon-trash" onclick="return confirm('Are you sure you want to delete <%= items[i].USERNAME %>?');"></span></a>
+								</td>
+								<td class="left">
+									<%= items[i].USERNAME %>
+								</td>
+								<td>
+									<%= vrniTip(items[i].TIP) %>
+								</td>
+							</tr>
+							<% } %>
+
+					</table>
+				</div>
+
+			</div>
+	</body>
+
+</html>

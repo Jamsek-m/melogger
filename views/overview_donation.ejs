@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<%	function vrniTip(tip){
+		if(tip == 'P'){
+			return 'donated';
+		} else if(tip == 'M'){
+			return 'took';
+		} else {
+			return 'nedefinirano';
+		}
+	}	%>
+
+	<head>
+		<title>Record Overview</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	</head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<body>
+		<% include nav.ejs %>
+
+			<div style="padding:25px">
+				<h3 style="padding-bottom:10px">Record overview</h3>
+				<% for(var i = 0; i < items.length; i++) { %>
+					<hr />
+					<div style="float:none">
+						<span><%= items[i].DATUM_VNOSA %> - <strong><%= items[i].CITIZEN_NAME %></strong> <%= vrniTip(items[i].TIP) %> <strong><%= items[i].KOLICINA %> <%= items[i].NAZIV %></strong></span>
+						<span style="float:right">Added by: <%= items[i].USERNAME %></span>
+					</div>
+
+					<% } %>
+
+			</div>
+	</body>
+
+</html>
