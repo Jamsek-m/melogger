@@ -22,7 +22,15 @@
 </style>
 
 <script>	
-	$(document).ready(function (){				
+	$(document).ready(function (){
+		$("#Geslo").keypress(function(e){
+			var key = e.which;
+			if(key == 13){
+				$("#logiraj_btn").click();
+				return false;
+			}
+		});
+
 		$("#logiraj_btn").click(function (){
 			var upoime = $("#Upime").val();
 			var gesloo = $("#Geslo").val();
