@@ -5,7 +5,14 @@ var auth = require('../moduli/auth');
 var formidable = require('formidable');
 
 router.get('/', auth, function (req, res, next) {
-	var sql = "SELECT CITIZEN_ID, CITIZEN_NAME,STR,DEX,INTL,CON,CHR, round(SUM(d.KOLICINA * sr.MON_VAL)) as BALANCE from citizen c join donacija d on c.CITIZEN_ID=d.CITIZEN join sif_res sr on sr.RES_ID=d.RESURS where c.STATUS!='D' group by CITIZEN_ID, CITIZEN_NAME,STR,DEX,INTL,CON,CHR";
+
+	var sql ="SELECT c.CITIZEN_ID, c.CITIZEN_NAME, \
+		STR,DEX,INTL,CON,CHR, ifnull(round(SUM(d.KOLICINA * sr.MON_VAL)),0) as BALANCE from citizen c  \
+		left outer join donacija d on c.CITIZEN_ID=d.CITIZEN \
+		left outer join sif_res sr on sr.RES_ID=d.RESURS \
+		where c.STATUS!='D'  \
+		group by CITIZEN_ID, CITIZEN_NAME";
+		
 	db.query(sql, function (err, rows) {
 		if (err) console.log("napaka pri GET /list: ", err);
 		else res.render('list', { items: rows, user: req.session.user });
@@ -55,11 +62,9 @@ router.post('/add', auth, function (req, res, next) {
 			var char = polja.Char;
 			var intl = polja.Intl;
 
-			var sql = "INSERT INTO citizen(CITIZEN_NAME, STR, DEX, INTL, CON, CHR, STATUS) VALUES(?,?,?,?,?,?, 'A');" +
-				"SET @last_id := LAST_INSERT_ID();" +
-				"INSERT INTO donacija (VNESEL_USER, DATUM_VNOSA, KOLICINA, RESURS, CITIZEN) VALUES (?, ?, '0', '355', @last_id);";
+			var sql = "INSERT INTO citizen(CITIZEN_NAME, STR, DEX, INTL, CON, CHR, STATUS) VALUES(?,?,?,?,?,?, 'A');" 
 
-			db.query(sql, [name, str, dex, intl, con, char, req.session.user.id, new Date()], function (err, rows) {
+			db.query(sql, [name, str, dex, intl, con, char], function (err, rows) {
 				if (err) console.log("napaka pri vnosu citizena: ", err);
 				else res.redirect('/list');
 			});

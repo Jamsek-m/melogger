@@ -15,11 +15,54 @@
 		margin-left: auto;
 		margin-right: auto;
 	}
+	
+	.toggle {
+		display: none;
+	}
 </style>
+
+<script>	
+	$(document).ready(function (){				
+		$("#logiraj_btn").click(function (){
+			var upoime = $("#Upime").val();
+			var gesloo = $("#Geslo").val();
+
+			var toSend = {upime: upoime, geslo : gesloo};
+
+			$.ajax({
+				type: "POST",
+				url : "/login",
+				dataType : "json",
+				contentType : "application/json",
+				async: true,
+				data : JSON.stringify(toSend),
+				success : function (res){
+					//čekiraj login
+					console.log(res.data);
+					if(res.data){
+						$("#uspeh_div").toggle(); 
+						$(".toggle:visible").not("#uspeh_div").hide();
+						window.location.href = "/";
+					} else {
+						//pokaži alert
+						$("#alert_div").toggle();
+						$(".toggle:visible").not("#alert_div").hide();
+					}
+				},
+				error : function(a, b,  c){
+					$("#crash_div").toggle();
+					$(".toggle:visible").not("#crash_div").hide();
+				}
+			});
+		});
+	});
+
+</script>
 
 <body style="padding:50px">
 	<h2>ME Logger Administration Panel</h2>
-	<form action="/login" method="POST" enctype="multipart/form-data" style="width:350px; padding-top:20px">
+	<!--<form action="/login" method="POST" enctype="multipart/form-data" style="width:350px; padding-top:20px">-->
+	<div style="width:350px; padding-top: 20px">
 		<div class="form-group">
 			<label for="Upime">Username:</label>
 			<input class="form-control" type="text" required id="Upime" name="Upime" />
@@ -28,14 +71,18 @@
 			<label for="Geslo">Password:</label>
 			<input type="password" id="Geslo" class="form-control" required name="Geslo" />
 		</div>
-		<% if(msg) { %>
-			<div class="alert alert-danger">
-				<%= msg %>
-			</div>
-
-			<% } %>
-				<button type="submit" class="btn btn-default centered" style="width: 9em">Submit</button>
-	</form>
+		<div id="uspeh_div" class="alert alert-success toggle">
+			prijava uspela!
+		</div>
+		<div id="alert_div" class="alert alert-danger toggle">
+			Napačno uporabniško ime ali geslo!
+		</div>
+		<div id="crash_div" class="alert alert-danger toggle">
+			Napaka na strežniku!
+		</div>
+		<button id="logiraj_btn" class="btn btn-default centered" style="width: 9em">Submit</button>
+	</div>
+	<!--	</form>-->
 
 
 

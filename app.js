@@ -25,7 +25,7 @@ app.set('view engine', 'ejs');
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
@@ -89,15 +89,7 @@ app.use(function(err, req, res, next) {
 	});
 });
 
-//periodično opravlja nalogo
-/*var cronJob = cron.job("/5 ", function(){
-	sessionStore.all(function(err, sessions) {
-        for (var i = 0; i < sessions.length; i++) {
-            sessionStore.get(sessions[i], function() {} );
-        }
-    });
-});
-cronJob.start();*/
+
 
 
 module.exports = app;
