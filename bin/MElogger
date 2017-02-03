@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-//process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = 'production';
 
 var app = require('../app');
 var debug = require('debug')('ME_res_logger:server');

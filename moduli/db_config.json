@@ -2,7 +2,7 @@
 	"connLimit" : 50,
 	"multStmt" : true,
 	"host" : "localhost",
-	"user" : "uporabnik",
-	"pass" : "uporabnik",
+	"user" : "logusr",
+	"pass" : "logusr",
 	"database" : "me_logger" 
 }

@@ -6,6 +6,7 @@ var crypto = require('crypto');
 var auth = require('../moduli/auth');
 
 router.get('/', function (req, res, next) {
+	req.session.user = null;
 	res.render('login');
 });
 
@@ -32,7 +33,8 @@ router.post('/', function (req, res, next) {
 });
 
 router.get('/logout', function (req, res, next) {
-	req.session.user = null;
+	//req.session.user = null;
+	req.session.destroy();
 	res.redirect('/login');
 });
 

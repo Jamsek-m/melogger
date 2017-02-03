@@ -17,6 +17,7 @@
     "crypto" : "latest",
     "formidable" : "latest",
     "express-session" : "latest",
-    "cron" : "latest"
+    "cron" : "latest",
+    "express-mysql-session" : "latest"
   }
 }

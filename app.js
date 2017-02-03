@@ -4,8 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var db = require('./moduli/db');
 var session = require('express-session');
-//var cron = require('cron');
+var MySQLStore = require('express-mysql-session')(session);
 
 var routes = require('./routes/index.js');
 var login_routes = require('./routes/login.js');
@@ -28,11 +29,30 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+/*	host : 'localhost',
+	user : 'uporabnik',
+	password : 'uporabnik',
+	database : 'me_logger',
+	checkExpirationInterval: 3600000,
+	createDatabaseTable : true,
+	schema :{
+		tableName : 'seja',
+		columnNames : {
+			session_id : 'session_id',
+			expires : 'expires',
+			data : 'data'
+		}
+	}*/
+
+var sesStore = new MySQLStore({}, db);
+
 app.use(session({
 	secret : "PERICAREZERACIREP",
 	name : "Me logger site",
 	saveUninitialized : true,
-	resave : false,
+	resave : true,
+	store : sesStore,
 	cookie : {
 		maxAge : 3600000
 	}
